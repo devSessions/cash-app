@@ -52,5 +52,9 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera Access Needed. Please Grant the Access</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Photo Library Access Needed. Please Grant the Access</string>
 </dict>
 </plist>
