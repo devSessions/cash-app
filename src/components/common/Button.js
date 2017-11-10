@@ -22,7 +22,7 @@ const styles = {
   },
   buttonStyle: {
     backgroundColor: '#fff',
-    borderRadius: 5,
+    borderRadius: 2,
     marginLeft: 5,
     marginRight: 5,
     padding: 5,

@@ -6,6 +6,7 @@ import {
   Dimensions,
 } from 'react-native';
 import Camera from 'react-native-camera';
+import axios from 'axios';
 
 import InfoBar from './common/InfoBar';
 import Button from './common/Button';
@@ -14,20 +15,38 @@ export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: 'DETECTED',
-      cash: 'RS. 1000',
+      status: 'CASH IDENTIFER',
+      cash: 'With AI',
       backgroundColor: '#41D3BD',
     }
 
     this.onCaptureClick = this.onCaptureClick.bind(this);
+    this.takePicture = this.takePicture.bind(this);
+    this.sendToServer = this.sendToServer.bind(this);
   }
 
   onCaptureClick() {
-    if(this.state.status === 'DETECTED') {
-      this.setState({ status: 'ERROR', cash: '404', backgroundColor: 'red' });
-    } else {
-      this.setState({ status: 'DETECTED', cash: 'RS. 1000', backgroundColor: '#41D3BD' })
-    }
+    this.setState({ status: 'COMPUTING', cash: 'Please Wait...', backgroundColor: '#41D3BD' });
+    this.takePicture();
+  }
+
+  takePicture() {
+    this.camera.capture()
+      .then((image) => this.sendToServer(image))
+      .catch((error) => this.setState({ status: 'ERROR', cash: error, backgroundColor: '#D81159' }));
+  }
+
+  sendToServer(image) {
+    this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' });
+    // axios.post('/test', {
+    //   data: image,
+    // })
+    // .then((response) => {
+    //   this.setState({ status: 'DETECTED', cash: 'RS. 1000', backgroundColor: '#41D3BD' });
+    // })
+    // .catch((error) => {
+    //   this.setState({ status: 'ERROR', cash: error, backgroundColor: '#D81159' });
+    // });
   }
 
   render() {
