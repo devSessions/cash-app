@@ -3,11 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import Camera from 'react-native-camera';
 
 import InfoBar from './common/InfoBar';
+import Button from './common/Button';
 
 export default class Main extends Component {
   constructor(props) {
@@ -54,12 +55,9 @@ export default class Main extends Component {
             style = { preview }
             aspect={Camera.constants.Aspect.fill}
           >
-            <Text 
-              style = { capture }
-              onPress = { this.onCaptureClick }
-            >
-              CAPTURE
-            </Text>
+            <View style={{ marginBottom: 20 }}>
+              <Button onPress={this.onCaptureClick}>Capture</Button>
+            </View>
           </Camera>
         </View>
       </View>
@@ -80,9 +78,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   capture: {
-    backgroundColor: '#FFFFFF',
-    color: '#000',
-    padding: 10,
-    margin: 40,
+    backgroundColor: 'red',
   },
 });
