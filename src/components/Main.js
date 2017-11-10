@@ -7,15 +7,45 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 
+import InfoBar from './common/InfoBar';
+
 export default class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      status: 'DETECTED',
+      cash: 'RS. 1000',
+      backgroundColor: '#41D3BD',
+    }
+
+    this.onCaptureClick = this.onCaptureClick.bind(this);
+  }
+
+  onCaptureClick() {
+    if(this.state.status === 'DETECTED') {
+      this.setState({ status: 'ERROR', cash: '404', backgroundColor: 'red' });
+    } else {
+      this.setState({ status: 'DETECTED', cash: 'RS. 1000', backgroundColor: '#41D3BD' })
+    }
+  }
+
   render() {
-    const { container, infoBar, camera, status, cash, preview, capture } = styles;
+    const { 
+      container,
+      camera,
+      preview,
+      capture,
+    } = styles;
+
+    const { status, cash, backgroundColor } = this.state;
+    
     return (
       <View style = { container }>
-        <View style = { infoBar }>
-          <Text style = { status }>DETECTED</Text>
-          <Text style = { cash }>RS. 1000</Text>
-        </View>
+        <InfoBar 
+          status = { status }
+          cash = { cash }
+          backgroundColor = { backgroundColor }
+        />
         <View style = { camera }>
           <Camera
             ref={(cam) => {
@@ -24,7 +54,12 @@ export default class Main extends Component {
             style = { preview }
             aspect={Camera.constants.Aspect.fill}
           >
-            <Text style = { capture }>CAPTURE</Text>
+            <Text 
+              style = { capture }
+              onPress = { this.onCaptureClick }
+            >
+              CAPTURE
+            </Text>
           </Camera>
         </View>
       </View>
@@ -35,22 +70,6 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  infoBar: {
-    flex: 1,
-    backgroundColor: '#41D3BD',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  status: {
-    fontSize: 36,
-    color: '#FFFFFF',
-  },
-  cash: {
-    fontSize: 56,
-    color: '#FFFFFF',
-    fontWeight: '600',
   },
   camera: {
     flex: 2,
@@ -65,5 +84,5 @@ const styles = StyleSheet.create({
     color: '#000',
     padding: 10,
     margin: 40,
-  }
+  },
 });
