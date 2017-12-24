@@ -8,6 +8,7 @@ import {
 import Camera from 'react-native-camera';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import Config from 'react-native-config';
 
 import InfoBar from './common/InfoBar';
 import Button from './common/Button';
@@ -27,7 +28,7 @@ export default class Main extends Component {
   }
 
   onCaptureClick() {
-    this.setState({ status: 'COMPUTING', cash: 'Please Wait...', backgroundColor: '#41D3BD' });
+    this.setState({ status: 'COMPUTING', cash: 'Please Wait...', backgroundColor: '#EFDC05' });
     this.takePicture();
   }
 
@@ -40,9 +41,9 @@ export default class Main extends Component {
   sendToServer(image) {
     if(image.path) {
       let timestamp = (Date.now() / 1000 | 0).toString();
-      let apiKey = '193473961772195';
-      let apiSecret = 'ROHw1Q_mHPEO0uL7l7kgMmZcv0c';
-      let cloud = 'rabingaire';
+      let apiKey = Config.APIKEY;
+      let apiSecret = Config.APISECRET;
+      let cloud = Config.CLOUD;
       let hashString = `timestamp=${timestamp}${apiSecret}`;
       let signature = CryptoJS.SHA1(hashString).toString();
       let uploadUrl = `https://api.cloudinary.com/v1_1/${cloud}/image/upload`;
@@ -62,6 +63,7 @@ export default class Main extends Component {
       });
 
       uploadCloudinary.then((resolve) => {
+        console.log(resolve);
         this.setState({ status: 'DETECTED', cash: 'RS. 1000', backgroundColor: '#41D3BD' });
       })
       .catch((error) => {
