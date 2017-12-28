@@ -25,6 +25,7 @@ export default class Main extends Component {
     this.onCaptureClick = this.onCaptureClick.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.sendToServer = this.sendToServer.bind(this);
+    this.sendToApi = this.sendToApi.bind(this);
   }
 
   onCaptureClick() {
@@ -35,7 +36,7 @@ export default class Main extends Component {
   takePicture() {
     this.camera.capture()
       .then((image) => this.sendToServer(image))
-      .catch((error) => this.setState({ status: 'ERROR', cash: error, backgroundColor: '#D81159' }));
+      .catch((error) => this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' }));
   }
 
   sendToServer(image) {
@@ -54,22 +55,39 @@ export default class Main extends Component {
       formdata.append('api_key', apiKey);
       formdata.append('signature', signature);
 
-      let uploadCloudinary = new Promise((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', uploadUrl);
-        xhr.onload = () => resolve(xhr.responseText);
-        xhr.onerror = () => reject(xhr.statusText);
-        xhr.send(formdata);
-      });
-
-      uploadCloudinary.then((resolve) => {
-        console.log(resolve);
-        this.setState({ status: 'DETECTED', cash: 'RS. 1000', backgroundColor: '#41D3BD' });
+      fetch(uploadUrl, {
+        method: 'post',
+        body: formdata
+      })
+      .then((response) => response.json())
+      .then((resolve) => {
+        this.sendToApi(resolve.secure_url);
       })
       .catch((error) => {
-        this.setState({ status: 'ERROR', cash: '400', backgroundColor: '#D81159' });
+        this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' });
       });
     }
+  }
+
+  sendToApi(url) {
+    const apiUrl = 'https://cash-nepal.herokuapp.com/api';
+
+    let formData = new FormData();
+    formData.append('url', url);
+
+    fetch(apiUrl, {
+      method: 'post',
+      body: formData
+    })
+    .then((response) => response.json())
+    .then((resolve) => {
+      let cash = resolve.tasks[0][0].value;
+      this.setState({ status: 'DETECTED', cash: cash, backgroundColor: '#41D3BD' });
+    })
+    .catch((error) => {
+      console.log(error);
+      this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' })
+    });
   }
 
   render() {
@@ -96,6 +114,8 @@ export default class Main extends Component {
             }}
             style = { preview }
             aspect={Camera.constants.Aspect.fill}
+            captureQuality={Camera.constants.CaptureQuality.medium}
+            flashMode={Camera.constants.FlashMode.auto}
           >
             <View style={{ marginBottom: 20 }}>
               <Button onPress={this.onCaptureClick}>Capture</Button>
