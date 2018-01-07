@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Dimensions,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Camera from 'react-native-camera';
 import CryptoJS from 'crypto-js';
@@ -113,7 +114,6 @@ export default class Main extends Component {
       container,
       camera,
       preview,
-      capture,
     } = styles;
 
     const { status, cash, backgroundColor } = this.state;
@@ -130,15 +130,17 @@ export default class Main extends Component {
             ref={(cam) => {
               this.camera = cam;
             }}
-            style = { preview }
+            style = {{ flex: 1 }}
             aspect={Camera.constants.Aspect.fill}
             captureQuality={Camera.constants.CaptureQuality.medium}
             flashMode={Camera.constants.FlashMode.auto}
             captureTarget={Camera.constants.CaptureTarget.temp}
           >
-            <View style={{ marginBottom: 20 }}>
-              <Button onPress={this.onCaptureClick}>Capture</Button>
-            </View>
+            <TouchableWithoutFeedback onPress={this.onCaptureClick}>
+              <View style={ preview }>
+                <Button onPress={this.onCaptureClick}>Touch to Capture</Button>
+              </View>
+            </TouchableWithoutFeedback>
           </Camera>
         </View>
       </View>
@@ -157,8 +159,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center'
-  },
-  capture: {
-    backgroundColor: 'red',
   },
 });
