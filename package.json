@@ -12,7 +12,8 @@
 		"react": "16.0.0",
 		"react-native": "0.50.3",
 		"react-native-camera": "^0.12.0",
-		"react-native-config": "^0.11.2"
+		"react-native-config": "^0.11.2",
+		"react-native-tts": "^1.4.1"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",

@@ -6,9 +6,9 @@ import {
   Dimensions,
 } from 'react-native';
 import Camera from 'react-native-camera';
-import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import Config from 'react-native-config';
+import Tts from 'react-native-tts';
 
 import InfoBar from './common/InfoBar';
 import Button from './common/Button';
@@ -28,15 +28,28 @@ export default class Main extends Component {
     this.sendToApi = this.sendToApi.bind(this);
   }
 
+  componentDidMount() {
+    Tts.speak('Touch the lower part of screen to capture image.');
+  }
+
+  componentWillUnmount() {
+    Tts.stop();
+  }
+
   onCaptureClick() {
     this.setState({ status: 'COMPUTING', cash: 'Please Wait...', backgroundColor: '#EFDC05' });
+    Tts.speak('Computing please wait.');
     this.takePicture();
   }
 
   takePicture() {
     this.camera.capture()
       .then((image) => this.sendToServer(image))
-      .catch((error) => this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' }));
+      .catch((error) => {
+        this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' });
+        Tts.speak('Error, Please Try again !!!');
+        Tts.speak('Touch the lower part of screen to capture image.');
+      });
   }
 
   sendToServer(image) {
@@ -65,6 +78,8 @@ export default class Main extends Component {
       })
       .catch((error) => {
         this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' });
+        Tts.speak('Error, Please Try again !!!');
+        Tts.speak('Touch the lower part of screen to capture image.');
       });
     }
   }
@@ -83,10 +98,13 @@ export default class Main extends Component {
     .then((resolve) => {
       let cash = resolve.tasks[0][0].value;
       this.setState({ status: 'DETECTED', cash: cash, backgroundColor: '#41D3BD' });
+      Tts.speak(`Detected ${cash}`);
     })
     .catch((error) => {
       console.log(error);
-      this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' })
+      this.setState({ status: 'Tts.speak(`Detected ${cash}`);', cash: '404', backgroundColor: '#D81159' });
+      Tts.speak('Error, Please Try again !!!');
+      Tts.speak('Touch the lower part of screen to capture image.');
     });
   }
 
