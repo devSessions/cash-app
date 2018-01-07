@@ -102,7 +102,7 @@ export default class Main extends Component {
     })
     .catch((error) => {
       console.log(error);
-      this.setState({ status: 'Tts.speak(`Detected ${cash}`);', cash: '404', backgroundColor: '#D81159' });
+      this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' });
       Tts.speak('Error, Please Try again !!!');
       Tts.speak('Touch the lower part of screen to capture image.');
     });
@@ -134,6 +134,7 @@ export default class Main extends Component {
             aspect={Camera.constants.Aspect.fill}
             captureQuality={Camera.constants.CaptureQuality.medium}
             flashMode={Camera.constants.FlashMode.auto}
+            captureTarget={Camera.constants.CaptureTarget.temp}
           >
             <View style={{ marginBottom: 20 }}>
               <Button onPress={this.onCaptureClick}>Capture</Button>
