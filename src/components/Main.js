@@ -21,6 +21,7 @@ export default class Main extends Component {
       status: 'CASH IDENTIFER',
       cash: 'With AI',
       backgroundColor: '#41D3BD',
+      computing: false
     }
 
     this.onCaptureClick = this.onCaptureClick.bind(this);
@@ -38,16 +39,18 @@ export default class Main extends Component {
   }
 
   onCaptureClick() {
-    this.setState({ status: 'COMPUTING', cash: 'Please Wait...', backgroundColor: '#EFDC05' });
-    Tts.speak('Computing please wait.');
-    this.takePicture();
+    if (!this.state.computing) {
+      this.setState({ status: 'COMPUTING', cash: 'Please Wait...', backgroundColor: '#EFDC05', computing: !this.state.computing });
+      Tts.speak('Computing please wait.');
+      this.takePicture();
+    }
   }
 
   takePicture() {
     this.camera.capture()
       .then((image) => this.sendToServer(image))
       .catch((error) => {
-        this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' });
+        this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159', computing: !this.state.computing });
         Tts.speak('Error, Please Try again !!!');
         Tts.speak('Touch the lower part of screen to capture image.');
       });
@@ -78,7 +81,7 @@ export default class Main extends Component {
         this.sendToApi(resolve.secure_url);
       })
       .catch((error) => {
-        this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' });
+        this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159', computing: !this.state.computing });
         Tts.speak('Error, Please Try again !!!');
         Tts.speak('Touch the lower part of screen to capture image.');
       });
@@ -98,12 +101,12 @@ export default class Main extends Component {
     .then((response) => response.json())
     .then((resolve) => {
       let cash = resolve.tasks[0][0].value;
-      this.setState({ status: 'DETECTED', cash: cash, backgroundColor: '#41D3BD' });
+      this.setState({ status: 'DETECTED', cash: cash, backgroundColor: '#41D3BD', computing: !this.state.computing });
       Tts.speak(`Detected ${cash}`);
     })
     .catch((error) => {
       console.log(error);
-      this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159' });
+      this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159', computing: !this.state.computing });
       Tts.speak('Error, Please Try again !!!');
       Tts.speak('Touch the lower part of screen to capture image.');
     });
