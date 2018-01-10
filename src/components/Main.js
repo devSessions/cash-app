@@ -50,7 +50,7 @@ export default class Main extends Component {
     this.camera.capture()
       .then((image) => this.sendToServer(image))
       .catch((error) => {
-        this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159', computing: !this.state.computing });
+        this.setState({ status: 'ERROR', cash: 'Something Went Wrong', backgroundColor: '#D81159', computing: !this.state.computing });
         Tts.speak('Error, Please Try again !!!');
         Tts.speak('Touch the lower part of screen to capture image.');
       });
@@ -81,7 +81,7 @@ export default class Main extends Component {
         this.sendToApi(resolve.secure_url);
       })
       .catch((error) => {
-        this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159', computing: !this.state.computing });
+        this.setState({ status: 'ERROR', cash: 'Something Went Wrong', backgroundColor: '#D81159', computing: !this.state.computing });
         Tts.speak('Error, Please Try again !!!');
         Tts.speak('Touch the lower part of screen to capture image.');
       });
@@ -100,13 +100,13 @@ export default class Main extends Component {
     })
     .then((response) => response.json())
     .then((resolve) => {
-      let cash = resolve.tasks[0][0].value;
+      let cash = resolve.cash;
       this.setState({ status: 'DETECTED', cash: cash, backgroundColor: '#41D3BD', computing: !this.state.computing });
       Tts.speak(`Detected ${cash}`);
     })
     .catch((error) => {
       console.log(error);
-      this.setState({ status: 'ERROR', cash: '404', backgroundColor: '#D81159', computing: !this.state.computing });
+      this.setState({ status: 'ERROR', cash: 'Something Went Wrong', backgroundColor: '#D81159', computing: !this.state.computing });
       Tts.speak('Error, Please Try again !!!');
       Tts.speak('Touch the lower part of screen to capture image.');
     });
@@ -136,7 +136,7 @@ export default class Main extends Component {
             style = {{ flex: 1 }}
             aspect={Camera.constants.Aspect.fill}
             captureQuality={Camera.constants.CaptureQuality.medium}
-            flashMode={Camera.constants.FlashMode.auto}
+            flashMode={Camera.constants.FlashMode.on}
             captureTarget={Camera.constants.CaptureTarget.temp}
           >
             <TouchableWithoutFeedback onPress={this.onCaptureClick}>
