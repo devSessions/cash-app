@@ -5,12 +5,12 @@ import {
   View,
   Dimensions,
   TouchableWithoutFeedback,
+  TextInput,
 } from 'react-native';
 import Camera from 'react-native-camera';
 import CryptoJS from 'crypto-js';
 import Config from 'react-native-config';
 import Tts from 'react-native-tts';
-import { NetworkInfo } from 'react-native-network-info';
 
 import InfoBar from './common/InfoBar';
 import Button from './common/Button';
@@ -35,21 +35,6 @@ export default class Main extends Component {
 
   componentDidMount() {
     Tts.speak('Touch the lower part of screen to capture image.');
-
-    NetworkInfo.getIPAddress(ip => {
-      ip = ip.split(".").splice(0, 3).join(".");
-      for(let i = 2; i < 255; i++){
-        fetch(`http://${ip}.${i}:5000`)
-        .then((response) => {
-          if (response.status === 200) {
-            this.setState({url: `http://${ip}.${i}:5000/api`});
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      }
-    });
   }
 
   componentWillUnmount() {
@@ -132,7 +117,8 @@ export default class Main extends Component {
   // }
 
   computePicture(image) {
-    const apiUrl = this.state.url;
+    // const apiUrl = this.state.url;
+    const apiUrl = `http://${this.state.url}:5000/api`;
 
     let formData = new FormData();
     formData.append('url', {uri: image.path, type: 'image/jpg', name: 'upload.jpg'});
@@ -160,6 +146,7 @@ export default class Main extends Component {
       container,
       camera,
       preview,
+      textBox,
     } = styles;
 
     const { status, cash, backgroundColor } = this.state;
@@ -184,6 +171,12 @@ export default class Main extends Component {
           >
             <TouchableWithoutFeedback onPress={this.onCaptureClick}>
               <View style={ preview }>
+                <TextInput
+                  style={textBox}
+                  onChangeText={(url) => this.setState({url})}
+                  value={this.state.url}
+                  placeholder="Enter IP Here"
+                />
                 <Button onPress={this.onCaptureClick}>Touch to Capture</Button>
               </View>
             </TouchableWithoutFeedback>
@@ -206,4 +199,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
+  textBox: {
+    borderRadius: 2,
+    height: 40,
+    width: 160,
+    marginBottom: 10,
+    borderColor: '#FFF',
+    borderWidth: 1,
+    backgroundColor: '#FFF'
+  }
 });

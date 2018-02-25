@@ -3,7 +3,6 @@ package com.cash;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.pusherman.networkinfo.RNNetworkInfoPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
@@ -27,7 +26,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNNetworkInfoPackage(),
             new TextToSpeechPackage(),
             new ReactNativeConfigPackage(),
             new RCTCameraPackage()

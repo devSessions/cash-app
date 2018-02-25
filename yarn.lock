@@ -3323,10 +3323,6 @@ react-native-config@^0.11.2:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.11.2.tgz#654621832f927ad075fb189eadf0469f627467aa"
 
-react-native-network-info@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-network-info/-/react-native-network-info-3.0.0.tgz#fafc0ccea2803ef3b6ba3e01c34e89df90ba1a87"
-
 react-native-tts@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-tts/-/react-native-tts-1.4.1.tgz#6b4bcd9416de5f3e8bc06c285e8a97d0764aff1b"
