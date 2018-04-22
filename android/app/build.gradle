@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-tensorflow')
     compile project(':react-native-tts')
     compile project(':react-native-config')
     compile project(':react-native-camera')
