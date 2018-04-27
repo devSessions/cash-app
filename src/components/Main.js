@@ -30,6 +30,7 @@ export default class Main extends Component {
     this.takePicture = this.takePicture.bind(this);
     this.sendToServer = this.sendToServer.bind(this);
     this.sendToApi = this.sendToApi.bind(this);
+    this.changeLanguage = this.changeLanguage.bind(this);
   }
 
   componentWillMount() {
@@ -37,12 +38,6 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
-    strings.setLanguage("ne");
-    this.setState({
-      status: strings.status,
-      cash: strings.cash,
-      buttonString: strings.buttonString
-    });
     Tts.speak("Touch the lower part of screen to capture image.");
   }
 
@@ -154,6 +149,15 @@ export default class Main extends Component {
       });
   }
 
+  changeLanguage() {
+    strings.setLanguage("ne");
+    this.setState({
+      status: strings.status,
+      cash: strings.cash,
+      buttonString: strings.buttonString
+    });
+  }
+
   render() {
     const { container, camera, preview } = styles;
 
@@ -177,7 +181,10 @@ export default class Main extends Component {
             flashMode={Camera.constants.FlashMode.on}
             captureTarget={Camera.constants.CaptureTarget.temp}
           >
-            <TouchableWithoutFeedback onPress={this.onCaptureClick}>
+            <TouchableWithoutFeedback
+              onPress={this.onCaptureClick}
+              onLongPress={this.changeLanguage}
+            >
               <View style={preview}>
                 <Button onPress={this.onCaptureClick}>
                   {strings.buttonString}
