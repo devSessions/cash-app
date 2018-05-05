@@ -161,7 +161,7 @@ export default class Main extends Component {
   render() {
     const { container, camera, preview } = styles;
 
-    const { status, cash, backgroundColor } = this.state;
+    const { status, cash, backgroundColor, buttonString } = this.state;
 
     return (
       <View style={container}>
@@ -186,9 +186,7 @@ export default class Main extends Component {
               onLongPress={this.changeLanguage}
             >
               <View style={preview}>
-                <Button onPress={this.onCaptureClick}>
-                  {strings.buttonString}
-                </Button>
+                <Button onPress={this.onCaptureClick}>{buttonString}</Button>
               </View>
             </TouchableWithoutFeedback>
           </Camera>
