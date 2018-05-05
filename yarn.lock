@@ -2531,6 +2531,10 @@ load-json-file@^2.0.0:
     pify "^2.0.0"
     strip-bom "^3.0.0"
 
+localized-strings@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/localized-strings/-/localized-strings-0.0.10.tgz#260303bce03affa2bb229585afb0207a7e9700d9"
+
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -3313,6 +3317,13 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-localization@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-localization/-/react-localization-1.0.8.tgz#4640ad1f8c3b1e5120e3d2e63f74a302e24f1213"
+  dependencies:
+    localized-strings "^0.0.10"
+    react "^16.0.0"
+
 react-native-camera@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-0.12.0.tgz#51afa8acf1696d9d973074b6454c5ba2cce6ac18"
@@ -3322,6 +3333,13 @@ react-native-camera@^0.12.0:
 react-native-config@^0.11.2:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.11.2.tgz#654621832f927ad075fb189eadf0469f627467aa"
+
+react-native-localization@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-localization/-/react-native-localization-1.0.7.tgz#abc3d718f1e65e63d005be402462c10d9f0e3b76"
+  dependencies:
+    react "^16.0.0"
+    react-localization "^1.0.8"
 
 react-native-tts@^1.4.1:
   version "1.4.1"
@@ -3412,6 +3430,15 @@ react-transform-hmr@^1.0.4:
 react@16.0.0:
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react@^16.0.0:
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.3.2.tgz#fdc8420398533a1e58872f59091b272ce2f91ea9"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
